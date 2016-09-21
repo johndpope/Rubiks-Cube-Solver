@@ -12,18 +12,19 @@ import Alamofire
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    let urlImg = "https://c1.staticflickr.com/5/4034/4544827697_6f73866999_b.jpg"
+//    let urlImg = "https://c1.staticflickr.com/5/4034/4544827697_6f73866999_b.jpg"
+    
+    @IBOutlet weak var imageView: UIImageView!
+    var newMedia: Bool?
+    let imagePicker = UIImagePickerController()
+    var currentImg : Data = Data()
+    var jpgPath : NSString = NSHomeDirectory()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        findMainColorOfImageWithURL(URL: urlImg)
+        
     }
-    
-    @IBOutlet weak var imageView: UIImageView!
-    var newMedia: Bool?
-    
-    let imagePicker = UIImagePickerController()
     
     @IBAction func useCamera(_ sender: AnyObject) {
         
@@ -44,6 +45,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [AnyHashable: Any]!) {
         imageView.image = image
+        currentImg = UIImageJPEGRepresentation(image, 0.8)!
+        currentImg.write(to: jpgPath)
+        //let imageString = jpeg?.base64EncodedString()
+        //currentImg = NSURL(string: imageString!)!
+        
+        
+        findMainColorOfImageWithURL()
         self.dismiss(animated: true, completion: nil);
     }
     
@@ -51,13 +59,20 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.dismiss(animated: true, completion: nil)
     }
     
-    func findMainColorOfImageWithURL(URL: String) {
+    func findMainColorOfImageWithURL() {
+        
+        
         let headers: HTTPHeaders = [
             "X-Mashape-Key": "7y2as4tWCBmshfUT7x8ymCW1h37ip1fnQ7jjsnMpCwqgvOsstZ",
             "Accept": "application/json"
         ]
+        let parameters: Parameters = [
+            "image": currentImg,
+            "palette": "simple",
+            "sort":"weight"
+        ]
         
-        Alamofire.request("https://apicloud-colortag.p.mashape.com/tag-url.json?palette=simple&sort=relevance&url=\(URL)", headers: headers).responseJSON { response in
+        Alamofire.request("https://apicloud-colortag.p.mashape.com/tag-file.json", parameters: parameters, headers: headers).responseJSON { response in
             
             print(response.debugDescription)
             
