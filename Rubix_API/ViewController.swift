@@ -17,11 +17,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var imageView: UIImageView!
     var newMedia: Bool?
     let imagePicker = UIImagePickerController()
-    var currentImg : Data = Data()
-    var jpgPath : NSString = NSHomeDirectory()
+    var currentImg : UIImage = UIImage()
+    //var jpgPath : NSString = NSHomeDirectory()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //uploadImage()
         
         
     }
@@ -29,7 +30,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBAction func useCamera(_ sender: AnyObject) {
         
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
-            
             
             imagePicker.delegate = self
             imagePicker.sourceType = UIImagePickerControllerSourceType.camera
@@ -40,18 +40,22 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             
             newMedia = true
         }
-        
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [AnyHashable: Any]!) {
         imageView.image = image
-        currentImg = UIImageJPEGRepresentation(image, 0.8)!
-        currentImg.write(to: jpgPath)
+        currentImg = image
+        
+        uploadImage()
+        
+        //currentImg = UIImageJPEGRepresentation(image, 0.8)!
+        //currentImg.write(to: jpgPath)
         //let imageString = jpeg?.base64EncodedString()
         //currentImg = NSURL(string: imageString!)!
         
         
-        findMainColorOfImageWithURL()
+        //findMainColorOfImageWithURL()
+        uploadImageAndData()
         self.dismiss(animated: true, completion: nil);
     }
     
@@ -59,15 +63,53 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.dismiss(animated: true, completion: nil)
     }
     
-    func findMainColorOfImageWithURL() {
-        
+    func uploadImageAndData(){
+        let imageData = UIImagePNGRepresentation(currentImg)!
         
         let headers: HTTPHeaders = [
             "X-Mashape-Key": "7y2as4tWCBmshfUT7x8ymCW1h37ip1fnQ7jjsnMpCwqgvOsstZ",
             "Accept": "application/json"
         ]
         let parameters: Parameters = [
-            "image": currentImg,
+            //"image": currentImg,
+            "palette": "simple",
+            "sort":"weight"
+        ]
+        
+        Alamofire.upload(imageData, to: "https://apicloud-colortag.p.mashape.com/tag-file.json", method: .post, headers: headers).responseJSON { response in
+            //debugPrint(response)
+        }
+    }
+    
+    func uploadImage()
+    {
+        let imageData = UIImagePNGRepresentation(currentImg)
+        
+        //let base64String = imageData.base64EncodedStringWithOptions(.allZeros)
+        let base64String = imageData?.base64EncodedString()
+        
+        let parameters = [
+            "image": base64String,
+            "palette": "simple",
+            "sort":"weight"
+        ]
+        
+        Alamofire.request("https://apicloud-colortag.p.mashape.com/tag-file.json", parameters:parameters).responseJSON { response in
+            
+            print(response.debugDescription)
+        }
+        
+    }
+    
+    func findMainColorOfImageWithURL() {
+       
+        
+        let headers: HTTPHeaders = [
+            "X-Mashape-Key": "7y2as4tWCBmshfUT7x8ymCW1h37ip1fnQ7jjsnMpCwqgvOsstZ",
+            "Accept": "application/json"
+        ]
+        let parameters: Parameters = [
+            //"image": currentImg,
             "palette": "simple",
             "sort":"weight"
         ]
