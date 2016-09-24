@@ -18,10 +18,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var newMedia: Bool?
     let imagePicker = UIImagePickerController()
     var imgColor : UIColor = UIColor()
-    var jpgPath : NSString = NSHomeDirectory() as NSString
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //uploadImage()
         
         
     }
@@ -29,7 +30,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBAction func useCamera(_ sender: AnyObject) {
         
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
-            
             
             imagePicker.delegate = self
             imagePicker.sourceType = UIImagePickerControllerSourceType.camera
@@ -40,7 +40,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             
             newMedia = true
         }
-        
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [AnyHashable: Any]!) {
@@ -64,14 +63,22 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
 /*    func findMainColorOfImageWithURL() {
+        Alamofire.request("https://apicloud-colortag.p.mashape.com/tag-file.json", parameters:parameters).responseJSON { response in
+            
+            print(response.debugDescription)
+        }
         
+    }
+    
+    func findMainColorOfImageWithURL() {
+       
         
         let headers: HTTPHeaders = [
             "X-Mashape-Key": "7y2as4tWCBmshfUT7x8ymCW1h37ip1fnQ7jjsnMpCwqgvOsstZ",
             "Accept": "application/json"
         ]
         let parameters: Parameters = [
-            "image": currentImg,
+            //"image": currentImg,
             "palette": "simple",
             "sort":"weight"
         ]
