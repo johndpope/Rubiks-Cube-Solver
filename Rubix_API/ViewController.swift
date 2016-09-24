@@ -8,7 +8,7 @@
 
 import UIKit
 import MobileCoreServices
-import Alamofire
+import ChameleonFramework
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
@@ -17,8 +17,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var imageView: UIImageView!
     var newMedia: Bool?
     let imagePicker = UIImagePickerController()
-    var currentImg : Data = Data()
-    var jpgPath : NSString = NSHomeDirectory()
+    var imgColor : UIColor = UIColor()
+    var jpgPath : NSString = NSHomeDirectory() as NSString
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,13 +45,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [AnyHashable: Any]!) {
         imageView.image = image
-        currentImg = UIImageJPEGRepresentation(image, 0.8)!
-        currentImg.write(to: jpgPath)
+        imgColor = AverageColorFromImage(image)
+        print(imgColor)
+        
+
+//        currentImg = UIImageJPEGRepresentation(image, 0.8)!
+//        currentImg.write(to: jpgPath)
         //let imageString = jpeg?.base64EncodedString()
         //currentImg = NSURL(string: imageString!)!
         
         
-        findMainColorOfImageWithURL()
+//        findMainColorOfImageWithURL()
         self.dismiss(animated: true, completion: nil);
     }
     
@@ -59,7 +63,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.dismiss(animated: true, completion: nil)
     }
     
-    func findMainColorOfImageWithURL() {
+/*    func findMainColorOfImageWithURL() {
         
         
         let headers: HTTPHeaders = [
@@ -89,4 +93,5 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             }
         }
     }
+*/
 }

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3A92A5F321B4D614CD7AE4FF54D58A0F"
+               BlueprintIdentifier = "1A87653A665EA0103EA09E295384E804"
                BuildableName = "Pods_Rubix_API.framework"
                BlueprintName = "Pods-Rubix_API"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3A92A5F321B4D614CD7AE4FF54D58A0F"
+            BlueprintIdentifier = "1A87653A665EA0103EA09E295384E804"
             BuildableName = "Pods_Rubix_API.framework"
             BlueprintName = "Pods-Rubix_API"
             ReferencedContainer = "container:Pods.xcodeproj">
@@ -60,15 +60,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3A92A5F321B4D614CD7AE4FF54D58A0F"
-            BuildableName = "Pods_Rubix_API.framework"
-            BlueprintName = "Pods-Rubix_API"
-            ReferencedContainer = "container:Pods.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

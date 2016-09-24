@@ -7,4 +7,6 @@ target 'Rubix_API' do
 
   # Pods for Rubix_API
 pod 'Alamofire', '~> 4.0'
+
+pod 'ChameleonFramework/Swift'
 end
